@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: ADMINS
+Build-Jdk: 14.0.2
+Implementation-Title: 123
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: net.springboot.javaguides
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-boot
+ -starter-parent/123
+Created-By: Maven Integration for Eclipse
+

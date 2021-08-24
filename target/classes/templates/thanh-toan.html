@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Thanh toán</title>
+      	<link href="../static/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet" />
+        <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        
+        
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" 
+	integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+	 <script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	crossorigin="anonymous"></script> 
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+	crossorigin="anonymous"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+	integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+	crossorigin="anonymous" />
+	<style type="text/css">
+	.modal-middle-space{
+		height: 323px;
+		width: 40px;
+	}
+	.b{
+		height: 323px;
+		width: 275px;
+		
+	}
+	.momo-counter{
+		text-align: center;
+		margin-top: 63px;
+	}
+	.momo-center{
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.a{
+		margin-left: 10px;
+	}
+	.a1{
+		margin-left: 27px;
+	}
+	.cvv-label{
+		margin-left: 170px
+	}
+	</style>
+</head>
+
+<body>
+	<div th:replace="/layout/header :: header"></div>
+	<div id="layoutSidenav_content">
+		<div class="container my-2">
+		<h3>Chọn hình thức thanh toán</h3>
+			<div class="card">
+				<div class="card-body">
+				<div class="dropdown">
+				<p>Số tiền cần thanh toán: <h5 id="price-display"></h5></p>
+				<script type="text/javascript">
+				var total = localStorage.getItem("price");
+				document.getElementById("price-display").innerHTML =total;
+				
+				//var x=document.getElementById("paypal").value =total;
+				</script>
+				<br>
+				
+				<form id="form-paypal" method="post" th:action="@{/pay}">
+					
+						<div>
+							<input type="radio" name="payment" value="1" id="paypal"/> <img
+							src="/images/PayPal1.jpg" style="width: 7rem;height: 4rem"> 
+						</div>
+					<br>
+				</form>
+				<form th:action="@{/vnpay}" method="get" id="form-vnpay">
+					<div>
+						<input type="radio" name="payment" id="vnpay">  <img
+							src="/images/VnPay.PNG" style="width: 7rem;height: 4rem"> 
+					</div>
+				</form>
+					<br>
+						
+						<button  class="btn btn-primary" onclick="myFunction()">
+							<i class="fa fa-dollar"> Thanh toán</i>
+						</button>
+						
+						
+						
+					<br>
+					<a th:href="@{/thanhtoan/vnpay}">VnPay</a>
+					
+					
+					<script type="text/javascript">
+						function paypal(){
+							var x=document.getElementById("paypal").value =localStorage.getItem("payment");
+							alert(document.getElementById("paypal").value);
+						}
+					</script>
+					
+				
+
+					<script type="text/javascript">
+					function myFunction() {
+					 if(document.getElementById("paypal").checked){
+						 $( "#vnpay" ).prop( "checked", false );
+							var x=localStorage.getItem("payment");
+							var y=Number((Number(x/23114)).toFixed(2));
+								document.getElementById("paypal").value =y;
+							//alert(document.getElementById("paypal").value);
+							//$('#select-payment').attr('action', "@{/pay}").submit();
+							$('#form-paypal').submit();
+						}
+					 if(document.getElementById("vnpay").checked){
+						 $( "#paypal" ).prop( "checked", false );
+						 $('#form-vnpay').submit();
+					 }
+								
+					}
+					</script>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

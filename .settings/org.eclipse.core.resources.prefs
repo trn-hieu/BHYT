@@ -1,0 +1,11 @@
+eclipse.preferences.version=1
+encoding//src/main/java=UTF-8
+encoding//src/main/resources=UTF-8
+encoding//src/main/resources/templates/layout/footer.html=UTF-8
+encoding//src/main/resources/templates/layout/header.html=UTF-8
+encoding//src/main/resources/templates/login-layout-save.html=UTF-8
+encoding//src/main/resources/templates/login.html=UTF-8
+encoding//src/main/resources/templates/registration.html=UTF-8
+encoding//src/main/resources/templates/vnPayResponse.html=UTF-8
+encoding//src/test/java=UTF-8
+encoding/<project>=UTF-8

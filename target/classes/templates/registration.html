@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+		<link rel="icon" href="/images/logo-bhxh.svg">
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+<title>Đăng ký</title>
+<link href="../static/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet" />
+        <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" 
+	integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+<link
+	href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css">
+<script
+	src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	crossorigin="anonymous"></script> 
+	
+<style type="text/css">
+@import
+	url("//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css")
+	;
+
+.login-block {
+	background: #DE6262; /* fallback for old browsers */
+	background: -webkit-linear-gradient(to bottom, #FFB88C, #DE6262);
+	/* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to bottom, #a3cfff, #012b8a);
+	/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	float: left;
+	width: 100%;
+	padding: 50px 0;
+}
+.full-screen {
+	height: 100%;
+}
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500);
+*:focus {
+  outline: none;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #DDD;
+  font-size: 16px;
+  color: #222;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+}
+
+#login-box {
+  position: relative;
+  margin: 5% auto;
+  width: 600px;
+  height: 500px;
+  background: #FFF;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  padding: 40px;
+  width: 300px;
+  height: 400px;
+}
+
+h1 {
+  margin: 0 0 20px 0;
+  font-weight: 300;
+  font-size: 28px;
+}
+
+input[type="text"],
+input[type="password"] {
+  display: block;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  padding: 4px;
+  width: 220px;
+  height: 32px;
+  border: none;
+  border-bottom: 1px solid #AAA;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  transition: 0.2s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-bottom: 2px solid #16a085;
+  color: #16a085;
+  transition: 0.2s ease;
+}
+
+input[type="submit"] {
+  margin-top: 28px;
+  width: 107px;
+  height: 32px;
+  background: #007bff;
+  border: none;
+  border-radius: 2px;
+  color: #FFF;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  text-transform: uppercase;
+  transition: 0.1s ease;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover,
+input[type="submit"]:focus {
+  opacity: 0.8;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  transition: 0.1s ease;
+}
+
+input[type="submit"]:active {
+  opacity: 1;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  transition: 0.1s ease;
+}
+
+.or {
+  position: absolute;
+  top: 180px;
+  left: 280px;
+  width: 40px;
+  height: 40px;
+  background: #DDD;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  line-height: 40px;
+  text-align: center;
+}
+
+.right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  box-sizing: border-box;
+  padding: 40px;
+  width: 300px;
+  height: 400px;
+   background: url('https://thukyluat.vn/uploads/image/2020/08/27/Quan-ly-va-su-dung-quy-BHXH-BHTN-va-BHYT.jpg'); 
+  background-size: cover;
+  background-position: center;
+  border-radius: 0 2px 2px 0;
+  margin-top: 50px;
+}
+
+.right .loginwith {
+  display: block;
+  margin-bottom: 40px;
+  font-size: 28px;
+  color: #FFF;
+  text-align: center;
+}
+
+button.social-signin {
+  margin-bottom: 20px;
+  width: 220px;
+  height: 36px;
+  border: none;
+  border-radius: 2px;
+  color: #FFF;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  transition: 0.2s ease;
+  cursor: pointer;
+}
+
+button.social-signin:hover,
+button.social-signin:focus {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  transition: 0.2s ease;
+}
+
+button.social-signin:active {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  transition: 0.2s ease;
+}
+
+button.social-signin.facebook {
+  background: #32508E;
+}
+
+button.social-signin.twitter {
+  background: #55ACEE;
+}
+
+button.social-signin.google {
+  background: #DD4B39;
+}
+.btn-return{
+	margin-top: 28px;
+  width: 107px;
+  height: 32px;
+  background: #de0015;
+  border: none;
+  border-radius: 2px;
+  color: #FFF;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  text-transform: uppercase;
+  transition: 0.1s ease;
+  cursor: pointer;
+  margin-left: 45px;}
+.login-sec  {
+	margin-bottom: 20px;
+	font-weight: 800;
+	font-size: 30px;
+	color: #007bff;
+}
+
+</style>
+</head>
+<body>
+
+
+	<section class="login-block full-screen">
+	<br><br><br><br>
+		<div id="login-box">
+		<div th:if="${param.error}">
+						<div class="alert alert-danger">Tên đăng nhập đã tồn tại</div>
+						<script type="text/javascript">
+						window.setTimeout(function() {
+						    $(".alert.alert-danger").fadeTo(500, 0).slideUp(500, function(){
+						        $(this).remove(); 
+						    });
+						}, 2000);
+						</script>
+		</div>
+		<div th:if="${param.success}">
+						<div class="alert alert-success" style="text-align: center;">Đăng kí thành công, <a href="/login">Đăng nhập</a> </div>
+						<script type="text/javascript">
+						window.setTimeout(function() {
+						    $(".alert.alert-success").fadeTo(500, 0).slideUp(500, function(){
+						        $(this).remove(); 
+						    });
+						}, 4000);
+						</script>
+		</div>
+  <div class="left">
+  
+  <br>
+    <h2 class="text-center login-sec">Đăng kí</h2>
+    <form th:action="@{/registration}" method="post" th:object="${user}" onsubmit="return check_pass()">
+    <input type="text" name="ten" placeholder="Tên" th:field="*{firstName}"
+							required autofocus="autofocus" />
+    <input type="text" name="ho" placeholder="Họ" th:field="*{lastName}" required/>
+    <input type="text" name="taikhoan" placeholder="Tên tài khoản" th:field="*{email}" required />
+    <input type="password" name="password" id="password" placeholder="Mật khẩu" th:field="*{password}" required />
+    <input type="password" name="confirm_password" id="confirm_password" placeholder="Nhập lại mật khẩu"  required />
+    
+    <span id='message'></span>
+    <br>
+    <input type="submit" id="submit" value="Đăng kí"  /> 
+     <span class="btn-return"></span><a href="/" th:href="@{/login}">Quay lại </a></span>
+     
+    </form>
+  </div>
+  
+  <script type="text/javascript">
+   function check_pass() {
+	    if (document.getElementById('password').value ==
+	            document.getElementById('confirm_password').value) {
+	        document.getElementById("message").innerHTML="";
+	        return true;
+	    } else {
+	        document.getElementById("message").innerHTML="Mật khẩu nhập lại không khớp";
+	        document.getElementById("message").style.color="red";
+	        /* document.getElementById("submit").addEventListener("click", function(event){
+	 		   event.preventDefault()}); */
+	 		  document.getElementById("confirm_password").focus();
+	 		  document.getElementById("confirm_password").style.borderColor = "red";
+	 		 document.getElementById("confirm_password").style.color = "red";
+	 		   return false;
+	    }
+	} 
+  </script>
+  
+  
+  <div class="right">
+    <!-- <br>
+    <br><br><br>
+    
+    <a href="https://vi-vn.facebook.com/"><button class="social-signin facebook"> Đăng nhập với facebook</button></a>
+    <button class="social-signin twitter">Đăng nhập với Twitter</button>
+    <button class="social-signin google">Đăng nhập với Google+</button> -->
+  </div>
+  <!-- <div class="or">OR</div> -->
+</div>
+	</section>
+</body>
+</html>

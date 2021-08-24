@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+		<link rel="icon" href="/images/logo-bhxh.svg">
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Đăng kí</title>
+      	<link href="../static/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet" />
+        <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" 
+	integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+	crossorigin="anonymous"></script>
+	<style type="text/css">
+.center {
+	position: relative;
+    margin-left: auto;
+    margin-right: auto;
+  /* width: 50%; */
+  
+  /* padding: 10px; */
+}
+.btn-width{
+	width:198px;
+}
+.btn-position{
+	margin-right:0
+}
+
+	</style>
+</head>
+
+<body class="sb-nav-fixed">
+<div th:replace="/layout/header :: header"> </div>
+ <div id="layoutSidenav_content">
+    <div class="container my-5" style="margin-top: 3.5rem !important">
+    				
+        <h3>Thông tin nhân viên</h3>
+   		<div class="card">
+            <div class="card-body">
+            <div class="col-md-10 center">
+            <div th:if="${param.duplicate}">
+				<div class="alert alert-danger">Mã Bảo hiểm xã hội đã được đăng kí</div>
+			</div>
+			<div th:if="${(param.error != null)  and (param.error[0]=='01')}">
+				<div class="alert alert-danger">Mức lương tối thiểu cho nhân viên của doanh nghiệp thuộc Vùng 1 là 4.729.400 VNĐ</div>
+            </div>
+            <div th:if="${(param.error != null)  and (param.error[0]=='02')}">
+				<div class="alert alert-danger">Mức lương tối thiểu cho nhân viên của doanh nghiệp thuộc Vùng 2 là 4.194.100 VNĐ</div>
+            </div>
+            <div th:if="${(param.error != null)  and (param.error[0]=='03')}">
+				<div class="alert alert-danger">Mức lương tối thiểu cho nhân viên của doanh nghiệp thuộc Vùng 3 là 3.670.100 VNĐ</div>
+            </div>
+            <div th:if="${(param.error != null)  and (param.error[0]=='04')}">
+				<div class="alert alert-danger">Mức lương tối thiểu cho nhân viên của doanh nghiệp thuộc Vùng 4 là 3.284.900 VNĐ</div>
+            </div>
+            		<script type="text/javascript">
+						window.setTimeout(function() {
+						    $(".alert.alert-danger").fadeTo(500, 0).slideUp(500, function(){
+						        $(this).remove(); 
+						    });
+						}, 5000);
+						</script>
+            
+            <form th:object="${nhanVien}" method="post" th:action="@{/nhanvien}">
+            	
+                <label>Họ tên</label>
+                <input class="form-control" th:field="*{ten}" type="text" required="required" style="margin-bottom: 1rem">
+                
+            	<label>Giới tính</label>
+            	<label style="margin-left: 47.5%">Ngày sinh</label>
+            	
+				<div class="form-inline">
+                		<select class="form-control" th:field="*{gioiTinh}" type="text"  style="width: 45%;margin-bottom: 1rem" required="required" >
+                			<option value="Nam">Nam</option>
+                			<option value="Nữ">Nữ</option>
+                		</select>
+						<div style="width: 10%;"></div>
+                		<input class="form-control" th:field="*{ngaySinh}" type="date"  style="width: 45%;margin-bottom: 1rem" required="required">
+				</div> 		
+				
+				
+				<label>Địa chỉ</label>
+            	<label style="margin-left: 49%">Mã BHXH</label>
+            	<div class="form-inline">
+                		<input class="form-control" th:field="*{diaChi}" type="text"  style="width: 45%;margin-bottom: 1rem" required="required" 
+                				>
+						<div style="width: 10%;"></div>
+                		<input class="form-control" th:field="*{maBHXH}" type="text"  style="width: 45%;margin-bottom: 1rem" required="required" maxlength="10"
+                				pattern="[0-9]{10}"
+                                oninvalid="this.setCustomValidity('Mã BHXH có dạng 10 chữ số từ 0-9')"
+  								oninput="this.setCustomValidity('')">
+				</div> 	
+				
+				
+				<label>Chức Vụ </label>
+            	<label style="margin-left: 47.5%">Mức lương</label>
+            	<div class="form-inline">
+                		<input class="form-control" th:field="*{chucVu}" type="text"  style="width: 45%;margin-bottom: 1rem" required="required">
+						<div style="width: 10%;"></div>
+                		<input class="form-control" id="mucluong-input" th:field="*{mucluong}" type="number"  style="width: 45%;margin-bottom: 1rem" required="required" min="1">
+                				
+				</div> 	
+				
+				<label>Phụ cấp</label>
+				<label style="margin-left: 48%">Nơi đăng kí khám chữa bệnh ban đầu</label>
+				<div class="form-inline">
+				<input class="form-control" id="phucap-input"   th:field="*{phuCap}"  type="number" style="width: 45%;margin-bottom: 1rem"  min="0" >
+				<div style="width: 10%;"></div>
+                			<select th:field="*{noiKCB}" style="width: 45%;margin-bottom: 1rem"  class="form-control"   required>
+                					<option value=" Trung tâm y tế Quận Thanh Xuân">	 Trung tâm y tế Quận Thanh Xuân</option>
+                                 	<option value="Phòng khám 107 Tôn Đức Thắng">Phòng khám 107 Tôn Đức Thắng</option>
+                                 	<option value="Phòng khám đa khoa Lĩnh Nam">Phòng khám đa khoa Lĩnh Nam</option>
+                                 	<option value="Phòng khám đa khoa KV Nghĩa Tân">Phòng khám đa khoa KV Nghĩa Tân</option>
+                                 	<option value="Trạm y tế phường Dịch Vọng">Trạm y tế phường Dịch Vọng</option>
+                                 	<option value="Phòng khám đa khoa 103 Bà Triệu">Phòng khám đa khoa 103 Bà Triệu</option>
+                                 	<option value="Phòng khám đa khoa 26 Lương Ngọc Quyến">Phòng khám đa khoa 26 Lương Ngọc Quyến</option>
+                                 	<option value="Trung tâm cấp cứu 115">Trung tâm cấp cứu 115</option>
+                                 	<option value="Trạm y tế phường Long Biên">Trạm y tế phường Long Biên</option>
+                                 	<option value="Phòng khám 695 Lạc Long Quân ">Phòng khám 695 Lạc Long Quân </option>
+                                 	<option value="Trạm y tế phường Yên Phụ">Trạm y tế phường Yên Phụ</option>
+                                 	<option value="	Trạm y tế phường Đại Mỗ">Trạm y tế phường Đại Mỗ</option>
+                            </select>	
+				
+				</div>
+					
+				<input id="mucluong" type="hidden" /> 
+					<!-- <input id="phucap" type="hidden"  value="0"/>  -->
+				
+				<br>
+				<label>
+				<input type="checkbox" style="width: 1.3rem;height: 1.3rem;" id="check"> 
+				Cơ quan/Tổ chức tôi cam kết hoàn toàn chịu trách nhiệm trước pháp luật về tính chính xác, 
+				trung thực của nội dung nêu trên và thực hiện giao dịch điện tử trong lĩnh vực bảo hiểm y tế theo đúng quy định của pháp luật.
+				</label>	
+			<br>	<br>
+					
+				    <div class="col-md-6 center">
+                       <div class=" form-group  center ">
+							<button  type="submit" class="btn btn-primary" onmouseover="save_mucluong_phucap()" style="width: 49.3%" id="btncheck">Đăng kí</button>
+							<a th:href="@{/doanhnghiep}">
+								<button type="button" class="btn btn-secondary" style="width: 49.3%">Quay lại</button>
+							</a>	
+					  </div>
+				</div>
+				</form>
+				
+				<script type="text/javascript">
+				function save_mucluong_phucap(){
+					
+					document.getElementById("mucluong").value=document.getElementById("mucluong-input").value;
+				
+				}
+				$('#check').change(function () {
+				    $('#btncheck').prop("disabled", !this.checked);
+				}).change()
+				</script>
+				
+            </div>
+            </div>
+            </div>
+        </div>   
+        
+    </div>
+</body>
+
+</html>

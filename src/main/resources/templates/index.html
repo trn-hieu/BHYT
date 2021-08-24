@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<link rel="icon" href="/images/logo-bhxh.svg">
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>Trang chủ</title>
+
+<link href="../static/css/styles.css" th:href="@{/css/styles.css}"
+	rel="stylesheet" />
+<link
+	href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"
+	rel="stylesheet" crossorigin="anonymous" />
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+	integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	crossorigin="anonymous"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+	crossorigin="anonymous"></script>
+
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+	integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+	crossorigin="anonymous" />
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js?fbclid=IwAR0qtqilxanSi8mF8obSrBu1m5HQpGIPO0huK1hUC23j_DeJuwZCfnPxYO0"></script>
+
+</head>
+<body class="sb-nav-fixed">
+	<div class="navbar-form navbar-right">
+
+		<div sec:authorize="isAuthenticated()">
+			<a class="btn btn-success" th:href="@{/}"></a>
+		</div>
+
+		<div sec:authorize="isAnonymous()">
+			<a class="btn btn-success" th:href="@{/login}">Login</a> <a
+				class="btn btn-primary" th:href="@{/register}">Register</a>
+		</div>
+
+	</div>
+	<div th:replace="/layout/header :: header"></div>
+	<div id="layoutSidenav_content">
+		<div class="container my-2">
+			<div class="card">
+				<div class="card-body">
+					<h3>
+						<i class="fas fa-clinic-medical"> Quản lý thông tin</i>
+					</h3>
+					
+					<p class="my-5">
+						<a href="/canhan/form" class="btn btn-primary mr-5"> 
+							<i class="fa fa-address-card"> Thông tin cá nhân</i>
+						</a> 
+						<a href="/hogiadinh/list" class="btn btn-primary mr-5"> 
+							<i class="fas fa-user-nurse"> Đóng BHYT theo hộ gia đình</i>
+						</a> 
+						<a href="/doanhnghiep" class="btn btn-primary mr-5">
+							<i class="	fa fa-medkit"> Đóng BHYT cho doanh nghiệp</i>
+						</a>
+					</p>
+					
+					
+					
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+	
+</body>
+</html>

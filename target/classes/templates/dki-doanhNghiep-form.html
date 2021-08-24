@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+		<link rel="icon" href="/images/logo-bhxh.svg">
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Đăng kí</title>
+      	<link href="../static/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet" />
+        <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" 
+	integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+	crossorigin="anonymous"></script>
+	<style type="text/css">
+.center {
+	position: relative;
+    margin-left: auto;
+    margin-right: auto;
+  /* width: 50%; */
+  
+  /* padding: 10px; */
+}
+.btn-width{
+	width:198px;
+}
+.btn-position{
+	margin-right:0
+}
+
+	</style>
+</head>
+
+<body class="sb-nav-fixed">
+<div th:replace="/layout/header :: header"> </div>
+ <div id="layoutSidenav_content">
+    <div class="container my-5" style="margin-top: 3.5rem !important">
+    				<div th:if="${param.success}">
+						<div class="alert alert-info">Bạn đã đăng kí thành công</div>
+						<script type="text/javascript">
+						window.setTimeout(function() {
+						    $(".alert.alert-info").fadeTo(500, 0).slideUp(500, function(){
+						        $(this).remove(); 
+						    });
+						}, 2000);
+						</script>
+					</div>
+					<div th:if="${param.error}">
+						<div class="alert alert-danger">Thông tin đăng kí bị trùng lặp</div>
+						<script type="text/javascript">
+						window.setTimeout(function() {
+						    $(".alert.alert-danger").fadeTo(500, 0).slideUp(500, function(){
+						        $(this).remove(); 
+						    });
+						}, 2000);
+						</script>
+					</div>
+        <h3>Khai báo thông tin doanh nghiệp</h3>
+   		<div class="card">
+            <div class="card-body">
+            <div class="col-md-10 center">
+            <form th:object="${doanhNghiep}" method="post" th:action="@{/doanhnghiep}">
+            	<label style="margin-bottom: 1rem !important">Theo Nghị định số 166/2016/NĐ-CP ngày 24/12/2016 của Chính phủ, Cơ quan/Tổ chức tôi có đủ các điều kiện sử dụng phương thức giao dịch điện tử. 
+            	Cơ quan/Tổ chức tôi đăng ký với cơ quan Bảo hiểm y tế, được sử dụng phương thức giao dịch điện tử trong lĩnh vực bảo hiểm y tế như sau:</label>
+                <label>Tên doanh nghiệp</label>
+                <input class="form-control" th:field="*{ten}" type="text" required="required" style="margin-bottom: 1rem">
+                
+            	<label>Mã doanh nghiệp</label>
+            	<label style="margin-left: 40%">Mã số thuế</label>
+            	
+				<div class="form-inline">
+                		<input class="form-control" th:field="*{maDonVi}" type="text"  style="width: 45%;margin-bottom: 1rem" required="required" min="1" maxlength="5"
+                				pattern="[0-9][0-9][0-9][0-9][0-9]"
+                                oninvalid="this.setCustomValidity('Mã doanh nghiệp có dạng 5 chữ số từ 0-9')"
+  								oninput="this.setCustomValidity('')">
+						<div style="width: 10%;"></div>
+                		<input class="form-control" th:field="*{maThue}" type="text"  style="width: 45%;margin-bottom: 1rem" required="required" maxlength="10"
+                				pattern="[0-9]{10}"
+                                oninvalid="this.setCustomValidity('Mã số thuế của doanh nghiệp có dạng 10 chữ số từ 0-9')"
+  								oninput="this.setCustomValidity('')">
+				</div> 		
+				<label>Loại hình doanh nghiệp</label>	             
+				<select class="form-control" th:field="*{loaiHinhKinhDoanh}"  style="width: 45%;margin-bottom: 1rem" required="required">
+					<option value="Công ty TNHH một thành viên">Công ty TNHH một thành viên</option>
+					<option value="Công ty TNHH hai thành viên trở lên">Công ty TNHH hai thành viên trở lên</option>
+					<option value="Công ty hợp danh">Công ty hợp danh</option>
+					<option value="Công ty cổ phần">Công ty cổ phần</option>
+					<option selected="selected" value="Doanh nghiệp tư nhân">Doanh nghiệp tư nhân</option>
+					<option value="Doanh nghiệp nhà nước">Doanh nghiệp nhà nước</option>
+				</select>
+				
+				<label>Địa chỉ đăng ký kinh doanh</label>
+				<input class="form-control" th:field="*{diaChiKinhDoanh}" type="text" required="required" style="margin-bottom: 1rem">
+				
+				<label>Địa chỉ giao dịch hoặc liên hệ</label>
+				<input class="form-control" th:field="*{diaChiLienHe}" type="text"  required="required" style="margin-bottom: 1rem">
+				
+				<label>Số điện thoại</label>
+            	<label style="margin-left: 43.5%">Địa chỉ email</label>
+            	<div class="form-inline">
+                		<input class="form-control" th:field="*{soDT}" type="text"  style="width: 45%;margin-bottom: 1rem" required="required" maxlength="10"
+                				pattern="[0-9]{10}"
+                                oninvalid="this.setCustomValidity('Số điện thoại có dạng 10 chữ số từ 0-9')"
+  								oninput="this.setCustomValidity('')">
+						<div style="width: 10%;"></div>
+                		<input class="form-control" th:field="*{email}" type="text" placeholder="abc@gmail.com" style="width: 45%;margin-bottom: 1rem" required="required"
+                				 pattern="[a-zA-Z0-9!#$%&amp;'*+\/=?^_`{|}~.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*"
+                                 oninvalid="this.setCustomValidity('Định dạng đúng: abc@gmail.com')"
+  								 oninput="this.setCustomValidity('')">
+				</div> 	
+				
+				<label>Quyết định thành lập/Giấy phép kinh doanh:</label><br>
+				<label>Mã số </label>
+            	<label style="margin-left: 49.5%">Nơi cấp</label>
+            	<div class="form-inline">
+                		<input class="form-control" th:field="*{giayPhepKinhDoanh}" type="text"  style="width: 45%;margin-bottom: 1rem" required="required">
+						<div style="width: 10%;"></div>
+                		<select class="form-control" th:field="*{noiCap}" type="text"  style="width: 45%;margin-bottom: 1rem" required="required">
+                				<option  disabled selected value="">Chọn Tỉnh</option>
+                				<option value="An Giang">An Giang</option>
+								<option value="Bà Rịa - Vũng Tàu">Bà Rịa - Vũng Tàu</option>
+								<option value="Bắc Giang">Bắc Giang</option>
+								<option value="Bắc Kạn">Bắc Kạn</option>
+								<option value="Bạc Liêu">Bạc Liêu</option>
+								<option value="Bắc Ninh">Bắc Ninh</option>
+								<option value="Bến Tre">Bến Tre</option>
+								<option value="Bình Định">Bình Định</option>
+								<option value="Bình Dương">Bình Dương</option>
+								<option value="Bình Phước">Bình Phước</option>
+								<option value="Bình Thuận">Bình Thuận</option>
+								<option value="Cà Mau">Cà Mau</option>
+								<option value="Cao Bằng">Cao Bằng</option>
+								<option value="Đắk Lắk">Đắk Lắk</option>
+								<option value="Đắk Nông">Đắk Nông</option>
+								<option value="Điện Biên">Điện Biên</option>
+								<option value="Đồng Nai">Đồng Nai</option>
+								<option value="Đồng Tháp">Đồng Tháp</option>
+								<option value="Gia Lai">Gia Lai</option>
+								<option value="Hà Giang">Hà Giang</option>
+								<option value="Hà Nam">Hà Nam</option>
+								<option value="Hà Tĩnh">Hà Tĩnh</option>
+								<option value="Hải Dương">Hải Dương</option>
+								<option value="Hậu Giang">Hậu Giang</option>
+								<option value="Hòa Bình">Hòa Bình</option>
+								<option value="Hưng Yên">Hưng Yên</option>
+								<option value="Khánh Hòa">Khánh Hòa</option>
+								<option value="Kiên Giang">Kiên Giang</option>
+								<option value="Kon Tum">Kon Tum</option>
+								<option value="Lai Châu">Lai Châu</option>
+								<option value="Lâm Đồng">Lâm Đồng</option>
+								<option value="Lạng Sơn">Lạng Sơn</option>
+								<option value="Lào Cai">Lào Cai</option>
+								<option value="Long An">Long An</option>
+								<option value="Nam Định">Nam Định</option>
+								<option value="Nghệ An">Nghệ An</option>
+								<option value="Ninh Bình">Ninh Bình</option>
+								<option value="Ninh Thuận">Ninh Thuận</option>
+								<option value="Phú Thọ">Phú Thọ</option>
+								<option value="Quảng Bình">Quảng Bình</option>
+								<option value="Quảng Ngãi">Quảng Ngãi</option>
+								<option value="Quảng Ninh">Quảng Ninh</option>
+								<option value="Quảng Trị">Quảng Trị</option>
+								<option value="Quảng Nam">Quảng Nam</option>
+								<option value="Sóc Trăng">Sóc Trăng</option>
+								<option value="Sơn La">Sơn La</option>
+								<option value="Tây Ninh">Tây Ninh</option>
+								<option value="Thái Bình">Thái Bình</option>
+								<option value="Thái Nguyên">Thái Nguyên</option>
+								<option value="Thanh Hóa">Thanh Hóa</option>
+								<option value="Thừa Thiên Huế">Thừa Thiên Huế</option>
+								<option value="Tiền Giang">Tiền Giang</option>
+								<option value="Trà Vinh">Trà Vinh</option>
+								<option value="Tuyên Quang">Tuyên Quang</option>
+								<option value="Vĩnh Long">Vĩnh Long</option>
+								<option value="Vĩnh Phúc">Vĩnh Phúc</option>
+								<option value="Yên Bái">Yên Bái</option>
+								<option value="Phú Yên">Phú Yên</option>
+								<option value="Tp.Cần Thơ">Tp.Cần Thơ</option>
+								<option value="Tp.Đà Nẵng">Tp.Đà Nẵng</option>
+								<option value="Tp.Hải Phòng">Tp.Hải Phòng</option>
+								<option value="Tp.Hà Nội">Tp.Hà Nội</option>
+								<option value="TP HCM">TP HCM</option>
+                		</select>
+				</div> 	
+				
+				<label>Phương thức đóng BHYT</label>
+				<select class="form-control" th:field="*{phuongThucDong}" type="text" placeholder="Default input" style="width: 45%;margin-bottom: 1rem" required="required">
+					<option value="01 Tháng">01 Tháng</option>
+					<option value="03 Tháng">03 Tháng</option>
+					<option value="06 Tháng">06 Tháng</option>
+				</select>
+				
+		<br>
+				<label>
+				<input type="checkbox" style="width: 1.3rem;height: 1.3rem;" id="check"> 
+				Cơ quan/Tổ chức tôi cam kết hoàn toàn chịu trách nhiệm trước pháp luật về tính chính xác, 
+				trung thực của nội dung nêu trên và thực hiện giao dịch điện tử trong lĩnh vực bảo hiểm y tế theo đúng quy định của pháp luật.
+				</label>	
+			<br>	<br>
+				    <div class="col-md-6 center">
+                       <div class=" form-group  center ">
+							<button type="submit" class="btn btn-primary" style="width: 49.3%" id="btncheck">Đăng kí</button>
+							<a href="/">
+								<button type="button" class="btn btn-secondary" style="width: 49.3%">Quay lại</button>
+							</a>	
+					  </div>
+				</div>
+				
+				<script type="text/javascript">
+				$('#check').change(function () {
+				    $('#btncheck').prop("disabled", !this.checked);
+				}).change()
+				</script>
+				
+				
+				</form>
+            </div>
+            </div>
+            </div>
+        </div>   
+        
+    </div>
+</body>
+
+</html>
