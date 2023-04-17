@@ -5,16 +5,15 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import net.springboot.javaguides.congif.VnpayConfig;
 import net.springboot.javaguides.entity.ThanhToan;
@@ -46,7 +44,7 @@ public class VnpayController {
 	
 	@PostMapping("/make")
 	public String createPayment(HttpServletRequest request, 
-			VnPay vnPay) {
+			VnPay vnPay) throws UnsupportedEncodingException {
 		
 		String vnp_OrderInfo=vnPay.getVnp_OrderInfo();
 		String ordertype=vnPay.getVnp_OrderType();
@@ -56,7 +54,7 @@ public class VnpayController {
 		String language=vnPay.getVnp_Locale();
 		String bankcode=vnPay.getVnp_BankCode();
 		
-		String vnp_Version = "2.0.0";
+		String vnp_Version = "2.1.0";
 		String vnp_Command = "pay";
 		String vnp_TxnRef = VnpayConfig.getRandomNumber(8);
 		String vnp_IpAddr = VnpayConfig.getIpAddress(request);
@@ -84,13 +82,23 @@ public class VnpayController {
 		vnp_Params.put("vnp_ReturnUrl", VnpayConfig.vnp_Returnurl);
 		vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
 
-		Date dt = new Date();
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-		String dateString = formatter.format(dt);
-		String vnp_CreateDate = dateString;
-		String vnp_TransDate = vnp_CreateDate;
-		vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
-		vnp_Params.put("vnp_TransDate", vnp_TransDate);
+//		Date dt = new Date();
+//		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+//		String dateString = formatter.format(dt);
+//		String vnp_CreateDate = dateString;
+//		String vnp_TransDate = vnp_CreateDate;
+//		vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
+//		vnp_Params.put("vnp_TransDate", vnp_TransDate);
+		
+		Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        String vnp_CreateDate = formatter.format(cld.getTime());
+        vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
+        
+        cld.add(Calendar.MINUTE, 15);
+        String vnp_ExpireDate = formatter.format(cld.getTime());
+        vnp_Params.put("vnp_ExpireDate", vnp_ExpireDate);
+		
 
 		// Build data to hash and querystring
 		List<String> fieldNames = new ArrayList<>(vnp_Params.keySet()); // tra ve key trong Map
@@ -102,31 +110,27 @@ public class VnpayController {
 			String fieldName = (String) itr.next();
 			String fieldValue = (String) vnp_Params.get(fieldName); // lay value đc gán với key tương ứng
 			if ((fieldValue != null) && (fieldValue.length() > 0)) {
-				// Build hash data
-				hashData.append(fieldName);  // nối chuỗi
-				hashData.append('=');
-				hashData.append(fieldValue);
-				// Build query
-				try {
-					query.append(URLEncoder.encode(fieldName, StandardCharsets.US_ASCII.toString()));
-					query.append('=');
-					query.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII.toString()));
-				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-				if (itr.hasNext()) {
-					query.append('&');
-					hashData.append('&'); 
-				}
-			}
+                //Build hash data
+                hashData.append(fieldName);
+                hashData.append('=');
+                hashData.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII.toString()));
+                //Build query
+                query.append(URLEncoder.encode(fieldName, StandardCharsets.US_ASCII.toString()));
+                query.append('=');
+                query.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII.toString()));
+                if (itr.hasNext()) {
+                    query.append('&');
+                    hashData.append('&');
+                }
+            }
 		}
 
 		String queryUrl = query.toString();
-		String vnp_SecureHash = VnpayConfig.Sha256(VnpayConfig.vnp_HashSecret + hashData.toString());
+		//String vnp_SecureHash = VnpayConfig.Sha256(VnpayConfig.vnp_HashSecret + hashData.toString());
+		String vnp_SecureHash = VnpayConfig.hmacSHA512(VnpayConfig.vnp_HashSecret, hashData.toString());
 		// System.out.println("HashData=" + hashData.toString());
-		queryUrl += "&vnp_SecureHashType=SHA256&vnp_SecureHash=" + vnp_SecureHash;
+		//queryUrl += "&vnp_SecureHashType=SHA256&vnp_SecureHash=" + vnp_SecureHash;
+		queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
 		String paymentUrl = VnpayConfig.vnp_PayUrl + "?" + queryUrl;
 		vnp_Params.put("redirect_url", paymentUrl);
 		System.err.println(paymentUrl);
